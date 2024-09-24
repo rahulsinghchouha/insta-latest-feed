@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model YouTubeAPI {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  storeName  String   @unique
+  apiKey     String
+	playlistId String?	
+	showPlaylist Boolean? @default(false)  
+  channelName String
+  createdAt  DateTime @default(now()) @db.Timestamp
+	lastFetchTimeStamp DateTime?
+	lastFetchData Json?
+}
+
+model InstagramAccount {
+  id                  String @id @default(auto()) @map("_id") @db.ObjectId
+  shop                String @unique
+  instagramUserId     String
+  username            String
+  accessToken         String
+	rows								Int?
+	columns							Int?
+	layoutType					String?
+	feedTitle						String?
+	lastFetchTimeStamp DateTime?
+	lastFetchData 			Json?
+
+	@@unique([shop, instagramUserId])
+}
+
+type Feedback {
+  score     Int?
+  scoreMsg  String?
+  email     String?
+  content   String?
+}
+
+model AppTestimonial {
+	id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  storeName  String   @unique
+	feedback 	 Feedback?
+}
+
+model Session {
+  session_id  String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @unique
+  shop        String
+  state       String
+  isOnline    Boolean   @default(false)
+  scope       String?
+  expires     DateTime?
+  accessToken String
+  userId      BigInt?
+}

@@ -1,0 +1,691 @@
+{% schema %}
+{
+  "name": "CITS Instafeed",
+  "target": "section",
+  "class": "youtube-latest-video-carousel-block-citsCON-glb",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
+
+<style>
+  	.yt-carousel--parent{
+  		padding-block: 50px;
+  	}
+  	.yt-channel-info {
+  		display: flex;
+  		align-items: center;
+  		justify-content: space-between;
+  	}
+  	.yt-channel-info .channel-info {
+  		display: flex;
+  		align-items: center;
+  	}
+
+  	.yt-channel-info .channel-info .channel-image-wr {
+  		margin-right: 15px;
+  		margin-left: 0px;
+  	}
+  	.yt-channel-info .channel-info .channel-image-wr img {
+  		border-radius: 50%;
+  		width: 80px;
+  		height: 80px;
+  	}
+  	.channel-info--content {
+  		display: flex;
+  		flex-direction: column;
+  		align-items: center;
+  	}
+
+  	.channel-info--content .channel-stats {
+  		display: flex;
+  		list-style: none;
+  		padding: 0px;
+  		margin: 0px;
+  		font-size: 14px;
+  	}
+  	.channel-info--content .channel-stats li:not(:first-child) {
+  		position: relative;
+  		padding-left: 14px;
+  	}
+  	.channel-info--content .channel-stats li:not(:first-child)::before {
+  		content: '•';
+  		position: absolute;
+  		display: block;
+  		width: 5px;
+  		height: 5px;
+  		border-radius: 50%;
+  		left: 4px;
+  		filter: opacity(0.65);
+  	}
+
+  	.channel-info--content .channel-name {
+  		font-size: xx-large;
+  		cursor: pointer;
+  		line-height: 1;
+  	}
+
+  	.channel-info--content .channel-name:hover {
+  		text-decoration: underline;
+  		text-decoration-color: #1212128f;
+  	}
+
+  	.subscribe-button {
+  		width: auto;
+  		padding: 4px 12px;
+  		background: #000;
+  		color: white;
+  		border-radius: 25px;
+  		display: flex;
+  		align-items: center;
+  		gap: 5px;
+  		font-size: 15px;
+  		text-decoration: none;
+  	}
+
+  	.yt-carousel-wr.swiper-container {
+  		overflow-x: hidden;
+  		position: relative;
+  	}
+  	.yt-carousel-swiper-button-next{
+  		position: absolute;
+  		right: -40px;
+  		top: 50%;
+  		transform: translateY(-50%);
+  		z-index: 100;
+  		cursor: pointer;
+  	}
+
+  	.yt-carousel-swiper-button-prev{
+  		position: absolute;
+  		left: -40px;
+  		top: 50%;
+  		transform: translateY(-50%);
+  		z-index: 100;
+  		cursor: pointer;
+  	}
+
+  	.slide-banner {
+  		display: flex;
+  		align-items: center;
+  		justify-content: center;
+  		height: 190px;
+  		border-radius: 6px;
+  		background-position: center;
+  		cursor: pointer;
+  		background-size: cover;
+  	}
+  	.slide-banner .slide-youtube-icon {
+  		filter: opacity(0.8);
+  		transition: all 300ms ease-in-out;
+  	}
+  	.slide-banner:hover .slide-youtube-icon {
+  		filter: opacity(1.2);
+  	}
+  	.slide-content {
+  		padding: 16px 0px;
+  	}
+
+  	.slide-content--title {
+  		font-weight: 600;
+  		font-size: 15px;
+  		line-height: 20px;
+  	}
+
+  	.slide-content--title a {
+  		text-decoration: none;
+  		color: inherit;
+  		white-space: nowrap;
+  		text-overflow: ellipsis;
+  		overflow: hidden;
+  		width: 100%;
+  		display: inline-block;
+  	}
+
+  	.slide-content--title a:hover {
+  		text-decoration: underline;
+  	}
+
+  	.slide-content--upload-date {
+  		font-size: 14px;
+  	}
+
+  	.slide-content--description {
+  		overflow: hidden;
+  		margin-top: 8px;
+  		word-wrap: break-word;
+  		line-height: 1.4;
+  		font-size: 13px;
+  		-webkit-line-clamp: 2;
+  		-webkit-box-orient: vertical;
+  		height: 36.4px;
+  	}
+
+  	.slide-content--stats {
+  		align-items: center;
+  		margin-top: 8px;
+  		font-size: 12px;
+  		font-weight: 600;
+  		line-height: 16px;
+  		display: flex;
+  	}
+
+  	.slide-content--stats span:not(:first-child) {
+  		padding-left: 15px;
+  		position: relative;
+  	}
+  	.slide-content--stats span:not(:first-child)::before {
+  		content: '•';
+  		display: block;
+  		width: 5px;
+  		height: 5px;
+  		/* background-color: rgba(17, 17, 17, 0.7); */
+  		border-radius: 50%;
+  		position: absolute;
+  		left: 5.5px;
+  		/* top: 50%; */
+  		/* transform: translateY(-50%); */
+  	}
+  	#uninitialized {
+  		display: none;
+  		padding: 20px 0px;
+  		margin: 20px 0px;
+  		border: 1px solid;
+  	}
+  	#uninitialized .uninitialized-heading {
+  		display: flex;
+  		align-items: center;
+  		gap: 10px;
+  	}
+  	#uninitialized .uninitialized-footer {
+  		position: absolute;
+  		bottom: 5px;
+  		right: 5px;
+  		font-size: 12px;
+  		font-weight: 400;
+  	}
+
+  	.cits-insf--feed-list-1x6 {
+  		display: grid;
+  		grid-template-columns: repeat(6, 1fr);
+  		gap: 10px;
+  		padding: 0px;
+  		margin-top: 40px;
+  	}
+
+		.cits-insf--feed-list-1x4{
+  		display: grid;
+  		grid-template-columns: repeat(4, 1fr);
+  		gap: 10px;
+  		padding: 0px;
+  		margin-top: 40px;
+  	}
+
+		.cits-insf--feed-list-2x4{
+  		display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-wrap: wrap;
+  		gap: 10px;
+  		padding: 0px;
+  		margin-top: 40px;
+  	}
+
+  	#cits-insf--feed-container .cits-insf--feed-list-1x6 img {
+  		transition: transform 0.7s;
+  	}
+  	#cits-insf--feed-container .cits-insf--feed-list-1x4 img {
+  		transition: transform 0.7s;
+  	}
+  	#cits-insf--feed-container .cits-insf--feed-list-2x4 img {
+  		transition: transform 0.7s;
+  	}
+  	#cits-insf--feed-container .cits-insf--feed-list-1x6 img:hover{
+  		transform: scale(1.11);
+  	}
+  	#cits-insf--feed-container .cits-insf--feed-list-1x4 img:hover{
+  		transform: scale(1.11);
+  	}
+  	#cits-insf--feed-container .cits-insf--feed-list-2x4 img:hover{
+  		transform: scale(1.11);
+  	}
+  
+  	.cits-insf--feed-list-1x6 li {
+  		list-style: none;
+  		overflow: hidden;
+  		position: relative;
+  	}
+  	.cits-insf--feed-list-1x4 li {
+  		list-style: none;
+  		overflow: hidden;
+  		position: relative;
+  	}
+  	.cits-insf--feed-list-2x4 li {
+  		list-style: none;
+  		overflow: hidden;
+  		position: relative;
+  	}
+  	.cits-insf--feed-list-1x6 li::after{
+  		position: absolute;
+  		top:50%;
+  		left:50%;
+  		transform: translate(-50%, -50%);
+  		transition: font-size .25s, opacity .25s ease-in-out;
+  		content: url("{{ 'igafter.png' |  asset_img_url }}");
+  		font-weight: 700;
+  		opacity: 0;
+  		font-size: 1.25em;
+  	}
+  	.cits-insf--feed-list-1x4 li::after{
+  		position: absolute;
+  		top:50%;
+  		left:50%;
+  		transform: translate(-50%, -50%);
+  		transition: font-size .25s, opacity .25s ease-in-out;
+  		content: url("{{ 'igafter.png' |  asset_img_url }}");
+  		font-weight: 700;
+  		opacity: 0;
+  		font-size: 1.25em;
+  	}
+  	.cits-insf--feed-list-2x4 li::after{
+  		position: absolute;
+  		top:50%;
+  		left:50%;
+  		transform: translate(-50%, -50%);
+  		transition: font-size .25s, opacity .25s ease-in-out;
+  		content: url("{{ 'igafter.png' |  asset_img_url }}");
+  		font-weight: 700;
+  		opacity: 0;
+  		font-size: 1.25em;
+  	}
+  	.cits-insf--feed-list-1x6 li:hover::after{
+  		font-size: 1.65em;
+     	opacity: 1;
+  	}
+  	.cits-insf--feed-list-1x4 li:hover::after{
+  		font-size: 1.65em;
+     	opacity: 1;
+  	}
+  	.cits-insf--feed-list-2x4 li:hover::after{
+  		font-size: 1.65em;
+     	opacity: 1;
+  	}
+
+  	#cits-insf--feed-title{
+  		margin-top: 40px;
+  		margin-bottom: 20px;
+  		width: 100%;
+  		font-size: 1.4em;
+  		text-align: center;
+  	}
+
+  	/* CSS For Loader*/
+
+
+  .lds-dual-ring,
+  .lds-dual-ring:after {
+  	box-sizing: border-box;
+  }
+  .lds-dual-ring {
+  	display: flex !important;
+  	width: 80px;
+  	height: 80px;
+  	align-items: center;
+  	justify-content: center;
+  }
+  .lds-dual-ring:after {
+  	content: " ";
+  	display: block;
+  	width: 49px;
+  	height: 49px;
+  	margin: 8px;
+  	border-radius: 50%;
+  	border: 6.4px solid #000;
+  	border-color: #000 transparent #000 transparent;
+  	animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+  	0% {
+  		transform: rotate(0deg);
+  	}
+  	100% {
+  		transform: rotate(360deg);
+  	}
+  }
+  /*
+  	5x2 : 208px
+  	4x2 : 250px
+  	6x2 : 171.66666666666666px
+  	4x1 : 250px
+  	6x1 : 171.66666666666666px
+  	3x3 : 355px
+  */
+</style>
+
+{{ 'responsive.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  <div id="yt-carousel--parent" class="yt-carousel--parent">
+  	<h2 class="yt-carousel--header"></h2>
+  	<div class="yt-channel-info">
+  		<div class="channel-info">
+  			<div class="channel-image-wr">
+  				<img class="channel-image" alt="" />
+  			</div>
+  			<div class="channel-info--content">
+  				<span class="channel-name"><a href=""></a></span>
+  				<ul class="channel-stats">
+  					<li class="subscribers"></li>
+  					<li class="videos"></li>
+  					<li class="views"></li>
+  				</ul>
+  			</div>
+  		</div>
+  		<a href="#" target="_blank" class="subscribe-button">
+  			<img src="{{ 'youtube-logo-white.svg' | asset_url }}" width="27" height="30" alt="">
+  			Subscribe
+  		</a>
+  	</div>
+  	<div class="yt-carousel--swiper-section" style="position: relative">
+  		<div class="yt-carousel-swiper-button-prev"><img width="30" height="30" style="transform: rotate(180deg);" src="{{'swiper-nav-arrow.png' |  asset_url }}" alt="" /></div>
+  		<div class="yt-carousel-swiper-button-next"><img width="30" height="30" src="{{'swiper-nav-arrow.png' | asset_url }}" alt="" /></div>
+  		<div class="yt-carousel-wr swiper-container">
+  			<div class="swiper-wrapper"></div>
+  		</div>
+  	</div>
+  </div>
+{% endcomment %}
+<div id="cits-insf--feed-container">
+  <h2 id="cits-insf--feed-title"></h2>
+</div>
+<div id="uninitialized"></div>
+
+<script>
+		window.addEventListener("DOMContentLoaded", function () {
+			const cssUrl = 'https://unpkg.com/swiper/swiper-bundle.min.css';
+			const link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.href = cssUrl;
+			document.head.appendChild(link);
+	
+			const shop = '{{ shop.permanent_domain }}';
+
+			console.log("$$$$$$$=>",shop);
+			const url = `https://${shop}/apps/proxy-citsfetch?_data=routes/fetch-youtube-data&shop=${shop}`
+
+			var parent = document.getElementById("cits-insf--feed-container");
+			var header = document.getElementById("cits-insf--feed-title");
+	
+			// var parent = document.getElementById('yt-carousel--parent');
+			// var header = document.querySelector('.yt-carousel--parent .yt-carousel--header');
+			// header.innerText = 'Check out our Youtube Channel';
+			// const swiperWrapper = document.querySelector('.yt-carousel-wr .swiper-wrapper');
+			// const swiperContainer = document.querySelector('.yt-carousel-wr.swiper-container');
+			parent.style.display = 'none';
+			var uninitializedDiv = document.getElementById('uninitialized');
+			uninitializedDiv.style.display = 'flex';
+			uninitializedDiv.style.flexDirection = 'column';
+			uninitializedDiv.style.alignItems = 'center';
+			uninitializedDiv.style.justifyContent = 'center';
+			uninitializedDiv.innerHTML = `
+				<div class="lds-dual-ring"></div>
+			`;
+	
+			fetch( url, {
+				method: 'POST',
+				redirect: 'manual',
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*',
+				},
+			})
+				.then((response) => {
+					if (!response.ok) {
+						response.json().then((errorData) => {
+							if (errorData.code === 'API_KEY_INVALID') {
+								parent.style.display = 'none';
+								var uninitializedDiv = document.getElementById('uninitialized');
+								uninitializedDiv.style.display = 'flex';
+								uninitializedDiv.style.flexDirection = 'column';
+								uninitializedDiv.style.alignItems = 'center';
+								uninitializedDiv.style.justifyContent = 'center';
+								uninitializedDiv.innerHTML = `
+									<h2 class="uninitialized-heading"><img width="60" src="{{ 'api-key-invalid.png' |  asset_url  }}" />Seems Like Your API Key is Invalid</h2>
+									<p>Please initialize the carousel from the app by choosing your youtube channel. You can also link your favourite playlist from that channel.</p>
+									<p>For more details, read our app documentation.</p>
+								`;
+								return;
+							} else if (errorData.code === 'QUOTA_EXCEEDED') {
+								parent.style.display = 'none';
+								var uninitializedDiv = document.getElementById('uninitialized');
+								uninitializedDiv.style.display = 'flex';
+								uninitializedDiv.style.flexDirection = 'column';
+								uninitializedDiv.style.alignItems = 'center';
+								uninitializedDiv.style.justifyContent = 'center';
+								uninitializedDiv.innerHTML = `
+									<h2 class="uninitialized-heading"><img width="60" src="{{ 'quota-exceeded.png' |  asset_url  }}" />You Have Reached the Youtube Quota Limit for the Day</h2>
+									<p>Please initialize the carousel from the app by choosing your youtube channel. You can also link your favourite playlist from that channel.</p>
+									<p>For more details, read our app documentation.</p>
+								`;
+							} else {
+								parent.style.display = 'none';
+								var uninitializedDiv = document.getElementById('uninitialized');
+								uninitializedDiv.style.display = 'flex';
+								uninitializedDiv.style.flexDirection = 'column';
+								uninitializedDiv.style.alignItems = 'center';
+								uninitializedDiv.style.justifyContent = 'center';
+								uninitializedDiv.innerHTML = `
+									<h2 class="uninitialized-heading"><img width="60" src="{{ 'quota-exceeded.png' |  asset_url  }}" />You Have Reached the Youtube Quota Limit for the Day</h2>
+									<p>Please initialize the carousel from the app by choosing your youtube channel. You can also link your favourite playlist from that channel.</p>
+									<p>For more details, read our app documentation.</p>
+								`;
+							}
+						});
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then((data) => {
+
+					if(data.layoutType === "layout__grid") {
+
+						var uninitializedDiv = document.getElementById('uninitialized');
+						uninitializedDiv.style.display = 'none';
+						var header = document.getElementById("cits-insf--feed-title");
+						header.innerText = data.title;
+						if(data.rows === 1 && data.columns === 6) {
+
+							var feedList = document.createElement("ul");
+							feedList.classList.add("cits-insf--feed-list-1x6");
+							data.data.forEach(item => {
+								var feedPost = document.createElement("li");
+								// feedPost.style.width = '171.66px';
+								// feedPost.style.height = '171.66px';
+								var permaLink = document.createElement("a");
+								permaLink.setAttribute("href", item.permalink);
+								permaLink.setAttribute("target", "_blank");
+								var img = document.createElement("img");
+								img.setAttribute("src", item.media_url);
+								// img.style.width ="100%";
+								// img.style.height = "100%";
+								permaLink.appendChild(img);
+								feedPost.appendChild(permaLink);
+								feedList.appendChild(feedPost);
+							})
+
+							parent.appendChild(feedList);
+
+						} else if(data.rows === 2 && data.columns === 6 ){
+
+						} else if(data.rows === 2 && data.columns === 5 ){
+ 
+						} else if(data.rows === 2 && data.columns === 4 ){
+							var feedList = document.createElement("ul");
+							feedList.classList.add("cits-insf--feed-list-2x4");
+							data.data.forEach(item => {
+								var feedPost = document.createElement("li");
+								var permaLink = document.createElement("a");
+								permaLink.setAttribute("href", item.permalink);
+								permaLink.setAttribute("target", "_blank");
+								var img = document.createElement("img");
+								img.setAttribute("src", item.media_url);
+								permaLink.appendChild(img);
+								feedPost.appendChild(permaLink);
+								feedList.appendChild(feedPost);
+							})
+							var listCenterParent = document.createElement("div");
+
+							// listCenterParent.appendChild(feedList);
+							parent.appendChild(feedList);
+
+						} else if(data.rows === 1 && data.columns === 4 ){
+
+							var feedList = document.createElement("ul");
+							feedList.classList.add("cits-insf--feed-list-1x4");
+							data.data.forEach(item => {
+								var feedPost = document.createElement("li");
+								// feedPost.style.width = '171.66px';
+								// feedPost.style.height = '171.66px';
+								var permaLink = document.createElement("a");
+								permaLink.setAttribute("href", item.permalink);
+								permaLink.setAttribute("target", "_blank");
+								var img = document.createElement("img");
+								img.setAttribute("src", item.media_url);
+								// img.style.width ="100%";
+								// img.style.height = "100%";
+								permaLink.appendChild(img);
+								feedPost.appendChild(permaLink);
+								feedList.appendChild(feedPost);
+							})
+							var listCenterParent = document.createElement("div");
+
+							// listCenterParent.appendChild(feedList);
+							parent.appendChild(feedList);
+
+						} else if(data.rows === 3 && data.columns === 3 ){
+
+						}
+							const footerInsta = document.createElement("div");
+							footerInsta.style.display = "flex";
+							footerInsta.style.alignItems = "center";
+							footerInsta.style.justifyContent = "center";
+							footerInsta.style.gap = "5px";
+							const imgFooter = document.createElement("img");
+							imgFooter.setAttribute("src", '{{ 'insta-logo.png' |  asset_img_url }}');
+							imgFooter.setAttribute("width", "22px");
+							imgFooter.setAttribute("height", "22px");
+							const footerText = document.createElement("p");
+							footerText.style.margin = "0px";
+							footerText.style.fontSize = '12px';
+							footerText.innerHTML = `Follow us at <span style="display:inline-block;">${data.username}</span>`
+							parent.style.display = 'block';
+							footerInsta.appendChild(imgFooter);
+							footerInsta.appendChild(footerText);
+							parent.appendChild(footerInsta);
+					}
+
+					// if (data.uninitialized) {
+					// 	parent.style.display = 'none';
+					// 	var uninitializedDiv = document.getElementById('uninitialized');
+					// 	uninitializedDiv.style.display = 'flex';
+					// 	uninitializedDiv.style.flexDirection = 'column';
+					// 	uninitializedDiv.style.alignItems = 'center';
+					// 	uninitializedDiv.style.justifyContent = 'center';
+					// 	uninitializedDiv.style.position = 'relative';
+					// 	uninitializedDiv.innerHTML = `
+					// 		<h2 class="uninitialized-heading"><img width="60" src="{{ 'insta-logo.png' |  asset_url  }}" />Welcome to CITS Instafeed</h2>
+					// 		<p>Please initialize the instagram feed from the app by linking your account.</p>
+					// 		<p>For more details, read our app documentation.</p>
+					// 	`;
+					// 	return;
+					// }
+	
+					// if (data.videos) {
+					// 	var uninitializedDiv = document.getElementById('uninitialized');
+					// 	uninitializedDiv.style.display = 'none';
+					// 	parent.style.display = 'block';
+					// 	document.querySelector('.channel-image').src = data.channel.profilePicture;
+					// 	document.querySelector('.channel-info--content .channel-name').innerText = data.channel.title;
+					// 	document.querySelector('.channel-info--content .channel-stats .subscribers').innerText =
+					// 		data.channel.subscriberCount + ' Subscribers';
+					// 	document.querySelector('.channel-info--content .channel-stats .videos').innerText =
+					// 		data.channel.videoCount + ' Videos';
+					// 	document.querySelector('.channel-info--content .channel-stats .views').innerText =
+					// 		data.channel.viewCount + ' Views';
+					// 	document.querySelector(
+					// 		'.yt-channel-info .subscribe-button'
+					// 	).href = `https://www.youtube.com/channel/${data.channel.channelId}`;
+	
+					// 	data.videos.forEach((video) => {
+					// 		var swiperSlide = document.createElement('div');
+					// 		swiperSlide.className = 'swiper-slide';
+					// 		var slideBanner = document.createElement('a');
+					// 		slideBanner.href = `https://www.youtube.com/watch?v=${video.videoId}`;
+					// 		slideBanner.target = '_blank';
+					// 		slideBanner.classList = 'slide-banner';
+					// 		slideBanner.style.backgroundImage = `url(${video.thumbnail})`;
+					// 		slideBanner.innerHTML = `
+					// 			<figure class="slide-youtube-icon">
+					// 				<img src="{{'youtube-logo.png' | asset_url }}" width="67" />
+					// 			</figure>
+					// 		`;
+	
+					// 		var slideContent = document.createElement('div');
+					// 		slideContent.classList = 'slide-content';
+					// 		slideContent.innerHTML = `
+					// 			<div class="slide-content--title">
+					// 				<span><a target="_blank" href="https://www.youtube.com/watch?v=${video.videoId}" >${video.title}</a></span>
+					// 			</div>
+					// 			<div class="slide-content--upload-date">
+					// 				<span>${new Date(video.publishedAt).toLocaleDateString()}</span>
+					// 			</div>
+					// 			<div class="slide-content--description">
+					// 				<span>${video.description}</span>
+					// 			</div>
+					// 			<div class="slide-content--stats">
+					// 				<span>${video.views} Views</span>
+					// 				<span>${video.likes} Likes</span>
+					// 				<span>${video.comments} Comments</span>
+					// 			</div>
+					// 		`;
+	
+					// 		swiperSlide.appendChild(slideBanner);
+					// 		swiperSlide.appendChild(slideContent);
+					// 		swiperWrapper.appendChild(swiperSlide);
+					// 		swiperContainer.appendChild(swiperWrapper);
+					// 	});
+	
+					// 	const block_parent = document.querySelector(".youtube-latest-video-carousel-block-citsCON-glb");
+					// 	const block_width = block_parent.getBoundingClientRect().width;
+	
+					// 	// Initialize Swiper
+					// 	new Swiper('.swiper-container', {
+					// 		slidesPerView: block_width < 768 ? 1 : block_width < 980 ? 2 : 3,
+					// 		spaceBetween: 30,
+					// 		loop: true,
+					// 		navigation: {
+					// 			nextEl: '.yt-carousel-swiper-button-next',
+					// 			prevEl: '.yt-carousel-swiper-button-prev',
+					// 		},
+					// 		autoplay: {
+					// 			delay: 9000,
+					// 		},
+					// 	});
+					// } else {
+					// 	var emptyElement = document.createElement('div');
+					// 	emptyElement.style.display = 'flex';
+					// 	emptyElement.style.alignItems = 'center';
+					// 	emptyElement.style.justifyContent = 'center';
+					// 	emptyElement.innerHTML = '<p>No videos found</p>';
+					// 	container.appendChild(emptyElement);
+					// 	console.error('Failed to fetch videos:', data.error);
+					// }
+				})
+				.catch((error) => {
+					console.error('Error fetching videos:', error);
+				});
+		});
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<script async src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

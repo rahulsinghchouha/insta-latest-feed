@@ -1,0 +1,6 @@
+
+.Polaris-Autocomplete__Popover, 
+.Polaris-Popover {
+  z-index: 1051 !important; 
+  position: relative; 
+}

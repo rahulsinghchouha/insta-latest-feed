@@ -1,0 +1,34 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "f0010acbc56101c1aa07dfc3faa44fb4"
+name = "CITS InstaFeed"
+handle = "cits-instafeed-1"
+application_url = "https://scared-mongolia-metro-light.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "citsapptesting.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+
+[auth]
+redirect_urls = [
+  "https://scared-mongolia-metro-light.trycloudflare.com/auth/callback",
+  "https://scared-mongolia-metro-light.trycloudflare.com/auth/shopify/callback",
+  "https://scared-mongolia-metro-light.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-07"
+
+[app_proxy]
+url = "https://scared-mongolia-metro-light.trycloudflare.com/fetch-youtube-data"
+subpath = "proxy-citsfetch"
+prefix = "apps"
+
+[pos]
+embedded = false

@@ -1,0 +1,39 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "22f194d67ef4f81318def14cfb3d0151"
+name = "CITS InstaFeed"
+handle = "cits-instafeed"
+application_url = "https://asking-talked-shipped-il.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "citsapptesting.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_themes,write_themes"
+
+[auth]
+redirect_urls = [
+  "https://asking-talked-shipped-il.trycloudflare.com/auth/callback",
+  "https://asking-talked-shipped-il.trycloudflare.com/auth/shopify/callback",
+  "https://asking-talked-shipped-il.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+  [webhooks.privacy_compliance]
+  customer_deletion_url = "https://asking-talked-shipped-il.trycloudflare.com/webhooks"
+  customer_data_request_url = "https://asking-talked-shipped-il.trycloudflare.com/webhooks"
+  shop_deletion_url = "https://asking-talked-shipped-il.trycloudflare.com/webhooks"
+
+[app_proxy]
+url = "https://asking-talked-shipped-il.trycloudflare.com/fetch-youtube-data"
+subpath = "proxy-citsfetch"
+prefix = "apps"
+
+[pos]
+embedded = false
