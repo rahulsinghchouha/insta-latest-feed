@@ -79,7 +79,7 @@ function IndexComponent({
 									<Box>
 										<Text as='h3' variant='headingLg'>Get Started!</Text>
 										<Box paddingBlock={"200"}></Box>
-                    <Button onClick={handleInstagramLink} >Link Your Instagram Account</Button>
+                    
 										<Link
 											removeUnderline
 											external
