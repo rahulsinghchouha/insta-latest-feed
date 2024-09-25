@@ -6,7 +6,7 @@ import {Redirect} from '@shopify/app-bridge/actions';
 import { Context } from '@shopify/app-bridge-react'
 
 static contextType = Context;
-
+// hello world
 function IndexComponent({
 	history,
 	match,
