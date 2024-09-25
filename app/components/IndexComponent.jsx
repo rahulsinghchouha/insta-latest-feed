@@ -10,6 +10,7 @@ function IndexComponent({
 	app,
 }) {
 	const fetcher = useFetcher();
+  const redirect = Redirect.create(app);
 	const shopify = useAppBridge();
 	const [waitDelete, setWaitDelete] = useState(false);
 
