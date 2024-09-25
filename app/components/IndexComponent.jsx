@@ -1,20 +1,21 @@
 import { Badge, BlockStack, Box, Button, Card, InlineGrid, InlineStack, Link, Text } from '@shopify/polaris'
 import { useAppBridge } from '@shopify/app-bridge-react';
 import { useFetcher } from '@remix-run/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import {Redirect} from '@shopify/app-bridge/actions';
-import { Context } from '@shopify/app-bridge-react'
+import { Context as AppBridgeContext  } from '@shopify/app-bridge-react'
 
-static contextType = Context;
+// static contextType = Context;
 // hello world
 function IndexComponent({
 	history,
 	match,
-	app,
 }) {
 	const fetcher = useFetcher();
-  const redirect = Redirect.create(app);
 	const shopify = useAppBridge();
+  const app = useContext(AppBridgeContext);
+  const redirect = Redirect.create(app);
+  
 	const [waitDelete, setWaitDelete] = useState(false);
 
 	function handleDisconnectAccount() {
