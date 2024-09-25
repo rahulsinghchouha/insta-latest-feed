@@ -21,7 +21,7 @@ export const action = async ({ request }) => {
   }
 };
 
-export const loader = ({ request }) => {
+export const loader = async ({ request }) => {
   const {session, redirect} = await authenticate.admin(request);
   const shop = session.shop;
 
