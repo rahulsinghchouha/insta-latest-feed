@@ -3,7 +3,6 @@ import { useAppBridge } from '@shopify/app-bridge-react';
 import { useFetcher } from '@remix-run/react';
 import { useEffect, useState, useContext } from 'react';
 import {Redirect} from '@shopify/app-bridge/actions';
-import { useAppBridge } from '@shopify/app-bridge-react'
 
 // static contextType = Context;
 // hello world
