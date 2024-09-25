@@ -33,7 +33,7 @@ function IndexComponent({
     try{
       fetcher.submit({},{
 				method:"POST",
-				action:"/app"
+				action:"/initiate-oauth"
 			})
     } catch(err){
       console.log(err);
