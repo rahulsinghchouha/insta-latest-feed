@@ -3,6 +3,9 @@ import { useAppBridge } from '@shopify/app-bridge-react';
 import { useFetcher } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import {Redirect} from '@shopify/app-bridge/actions';
+import { Context } from '@shopify/app-bridge-react'
+
+static contextType = Context;
 
 function IndexComponent({
 	history,
