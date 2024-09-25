@@ -2,6 +2,7 @@ import { Badge, BlockStack, Box, Button, Card, InlineGrid, InlineStack, Link, Te
 import { useAppBridge } from '@shopify/app-bridge-react';
 import { useFetcher } from '@remix-run/react';
 import { useEffect, useState } from 'react';
+import {Redirect} from '@shopify/app-bridge/actions';
 
 function IndexComponent({
 	history,
@@ -23,6 +24,14 @@ function IndexComponent({
 			console.log(error);
 		}
 	}
+
+  function handleInstagramLink() {
+    try{
+      redirect.dispatch(Redirect.Action.REMOTE, 'https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=488937830712253&redirect_uri=https://instacarousel24.onrender.com/user-oauth&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish');
+    } catch(err){
+      console.log(err);
+    }
+  }
 
 	useEffect(() => {
 		if (fetcher.data) {
@@ -63,6 +72,7 @@ function IndexComponent({
 									<Box>
 										<Text as='h3' variant='headingLg'>Get Started!</Text>
 										<Box paddingBlock={"200"}></Box>
+                    <Button onClick={handleInstagramLink} >Link Your Instagram Account</Button>
 										<Link
 											removeUnderline
 											target='_parent'
