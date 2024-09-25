@@ -44,6 +44,14 @@ export const loader = async ({ request }) => {
 	return json({ history, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
 };
 
+export const action = async ({ request }) => {
+	const { session, redirect } = await authenticate.admin(request);
+	const shop = session.shop;
+  console.log("\n Redirecting user for Instagram OAuth\n");
+	redirect("https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=488937830712253&=https://admin.shopify.com/store/citsapptesting/apps/cits-instafeed-1/user-oauth&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish")
+}
+
+
 export default function Index() {
 
 	const app = useAppBridge();
