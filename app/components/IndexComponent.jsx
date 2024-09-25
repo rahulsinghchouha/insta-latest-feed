@@ -31,7 +31,10 @@ function IndexComponent({
 
   function handleInstagramLink() {
     try{
-      fetcher.load("/initiate-oauth");
+      fetcher.submit({},{
+				method:"POST",
+				action:"/initiate-oauth"
+			})
     } catch(err){
       console.log(err);
     }
