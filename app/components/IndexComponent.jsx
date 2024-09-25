@@ -3,7 +3,7 @@ import { useAppBridge } from '@shopify/app-bridge-react';
 import { useFetcher } from '@remix-run/react';
 import { useEffect, useState, useContext } from 'react';
 import {Redirect} from '@shopify/app-bridge/actions';
-import { Context as AppBridgeContext  } from '@shopify/app-bridge-react'
+import { useAppBridge } from '@shopify/app-bridge-react'
 
 // static contextType = Context;
 // hello world
@@ -13,7 +13,7 @@ function IndexComponent({
 }) {
 	const fetcher = useFetcher();
 	const shopify = useAppBridge();
-  const app = useContext(AppBridgeContext);
+  const app = useAppBridge();
   const redirect = Redirect.create(app);
   
 	const [waitDelete, setWaitDelete] = useState(false);
