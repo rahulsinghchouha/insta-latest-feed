@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { authenticate } from "../shopify.server";
+import { authenticate, sessionStorage } from "../shopify.server";
 import axios from "axios";
 import prisma from "../db.server";
 // import prisma from "../db.server";
@@ -21,13 +21,18 @@ export const action = async ({ request }) => {
 };
 
 export const loader = async ({request}) => {
-	const {session, redirect} = await authenticate.admin(request);
-  const shop = session.shop;
-  console.log("Loader for User OAuth running", shop);
+	// const {session, redirect} = await authenticate.admin(request);
+  // const shop = session.shop;
+  // console.log("Loader for User OAuth running", shop);
 	const url = new URL(request.url);
   const queryParams = url.searchParams;
 	const code = queryParams.get("code");
+  const sessionId = decodeURIComponent(queryParams.get("state"));
+  if(!sessionId) return redirect("/auth");
 
+  const existingSession = await sessionStorage.loadSession(sessionId);
+  console.log("Existing Session", existingSession);
+  
 	// exchange code for access token
 	const response = await axios.post("https://api.instagram.com/oauth/access_token", new URLSearchParams({
 		client_id: process.env.INSTA_CLIENT_ID,
@@ -84,6 +89,10 @@ export const loader = async ({request}) => {
 		},
 	});
 
-	return redirect(`/app?instaconn=true&username=${encodeURIComponent(username)}code=xx`);
+	return redirect(`/app?instaconn=true&username=${encodeURIComponent(username)}code=xx`, {
+    headers: {
+			"Set-Cookie": `sessionId=${existingSession.id}; Path=/; HttpOnly; SameSite=Strict; Secure`, // Adjust cookie settings as needed
+		},
+  });
 };
   
