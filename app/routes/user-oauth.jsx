@@ -90,10 +90,6 @@ export const loader = async ({request}) => {
 		},
 	});
 
-	return redirect(`/app?instaconn=true&username=${encodeURIComponent(username)}code=xx`, {
-    headers: {
-			"Set-Cookie": cookieHeader
-		},
-  });
+	return redirect(`/app?shop=${encodeURIComponent(existingSession.shop)}&instaconn=true&username=${encodeURIComponent(username)}code=xx`);
 };
   
