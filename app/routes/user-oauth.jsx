@@ -90,6 +90,6 @@ export const loader = async ({request}) => {
 		},
 	});
 
-	return redirect(`/app?shop=${encodeURIComponent(existingSession.shop)}&instaconn=true&username=${encodeURIComponent(username)}code=xx`);
+	return redirect(`/app`);
 };
   
