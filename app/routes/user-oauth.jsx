@@ -74,7 +74,7 @@ export const loader = async ({request}) => {
 	await prisma.instagramAccount.upsert({
 		where: {
 			shop_instagramUserId: {
-				shop,
+				shop: existingSession.shop,
 				instagramUserId,
 			},
 		},
@@ -83,7 +83,7 @@ export const loader = async ({request}) => {
 			accessToken: longLivedAccessToken,
 		},
 		create: {
-			shop,
+			shop: existingSession.shop,
 			instagramUserId,
 			username,
 			accessToken: longLivedAccessToken,
