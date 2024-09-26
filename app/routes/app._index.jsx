@@ -41,14 +41,14 @@ export const loader = async ({ request }) => {
 	const url = new URL(request.url);
 	const queryParams = url.searchParams;
 
-	return json({ history, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
+	return json({ history, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
 };
 
 export default function Index() {
 
 	const app = useAppBridge();
 
-	const { history, match, appBlockId, feedbackMatch, instaConnected } = useLoaderData();
+	const { history, match, appBlockId, feedbackMatch, instaConnected, sessionId } = useLoaderData();
 	const [selected, setSelected] = useState(0);
 
 	const handleTabChange = useCallback(
@@ -115,7 +115,7 @@ export default function Index() {
 								) :
 									tabs[selected].id === "main-content-1" ? (
 										<BlockStack gap={"300"}>
-											<IndexComponent app={app} match={match} history={history}  />
+											<IndexComponent app={app} match={match} history={history} sessionId={sessionId}  />
 											<Divider borderColor="border" />
 											{history && <InstaComponent match={match} history={history} appBlockId={appBlockId} />}
 											<Divider borderColor="border" />
