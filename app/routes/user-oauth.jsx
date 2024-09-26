@@ -90,6 +90,6 @@ export const loader = async ({request}) => {
 		},
 	});
 
-	return redirect(`/app`);
+	return redirect(`/app?shop=${encodeURIComponent(existingSession.shop)}`);
 };
   
