@@ -25,6 +25,9 @@ export const loader = async ({request}) => {
 	// const {session, redirect} = await authenticate.admin(request);
   // const shop = session.shop;
   // console.log("Loader for User OAuth running", shop);
+  console.log("\n####################################\n");
+  console.log(request);
+  console.log("\n####################################\n");
 	const url = new URL(request.url);
   const queryParams = url.searchParams;
 	const code = queryParams.get("code");
