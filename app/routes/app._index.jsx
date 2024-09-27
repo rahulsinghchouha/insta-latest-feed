@@ -12,7 +12,9 @@ import { StarIcon, StarFilledIcon, MagicIcon, ThumbsUpIcon } from '@shopify/pola
 import InstaComponent from "../components/InstaComponent";
 
 export const loader = async ({ request }) => {
+  console.log("\n ********************************* \n")
 	console.log("rendering index", request)
+  console.log("\n ********************************* \n")
 	let history = null;
 	let feedback = null;
 
