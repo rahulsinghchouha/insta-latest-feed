@@ -88,32 +88,19 @@ export default function Index() {
 						<Tabs tabs={tabs} selected={selected} onSelect={handleTabChange} fitted={false} canCreateNewView={false}>
 							<Box paddingBlock={"300"} >
 								{tabs[selected].id === "home-content-1" ? (
-									<BlockStack gap={"300"}>
-
-										<Box borderInlineStartWidth="075" padding={"300"} shadow="200"
-											style={{
-												background: 'linear-gradient(135deg, #ff7e5f, #feb47b)',
-												padding: '20px',
-												borderRadius: '10px',
-												color: '#ffffff'
-											}}
-										>
-											<Text variant="headingMd" as="h1">Add Instagram Feed to Store</Text>
+									<Card>
+										<Box style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+											<figure>
+												<img src="/insta-logo.png" width={150} alt="" />
+											</figure>
+											<Text variant="headingSm" as="h4">Setup Instagram Feed</Text>
+											<Text variant="bodyMd" as="p">Connect your Instagram account to start using Instafeed.</Text>
+											<Box paddingBlock={"300"}></Box>
+											<Button onClick={()=>{setSelected(1)}} variant="primary">Get Started</Button>
+											<Box paddingBlock={"300"}></Box>
+											<Text variant="bodyMd" as="p">Ensure you're logged into the Instagram account you want to display before connecting.</Text>
 										</Box>
-										<Box borderInlineStartWidth="075" padding={"300"} shadow="200" background="input-bg-surface">
-											<CalloutCard
-												title="Your API Keys are encrypted and secured."
-												illustration="./insta-logo.png"
-												primaryAction={{
-													content: 'Go to App',
-													url: '#',
-													onAction: () => { setSelected(1) }
-												}}
-											>
-												<p>Its quick and hassle free.</p>
-											</CalloutCard>
-										</Box>
-									</BlockStack>
+									</Card>
 								) :
 									tabs[selected].id === "main-content-1" ? (
 										<BlockStack gap={"300"}>
