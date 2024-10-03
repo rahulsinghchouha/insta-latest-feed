@@ -38,6 +38,8 @@ model InstagramAccount {
 	feedTitle						String?
 	lastFetchTimeStamp DateTime?
 	lastFetchData 			Json?
+  hmac								String?
+	id_token						String?
 
 	@@unique([shop, instagramUserId])
 }
