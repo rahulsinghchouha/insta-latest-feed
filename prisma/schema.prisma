@@ -65,4 +65,6 @@ model Session {
   expires     DateTime?
   accessToken String
   userId      BigInt?
+  hmac				String?
+	id_token		String?
 }
