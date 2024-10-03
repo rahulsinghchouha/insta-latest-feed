@@ -93,6 +93,12 @@ export const loader = async ({request}) => {
 		},
 	});
 
-	return redirect(`/app?shop=${encodeURIComponent(existingSession.shop)}`);
+  const match = await prisma.instagramAccount.findFirst({
+		where: {
+			shop: existingSession.shop
+		}
+	});
+
+	return redirect(`/app?shop=${encodeURIComponent(existingSession.shop)}&hmac=${match.hmac}&id_token=${match.id_token}`);
 };
   
