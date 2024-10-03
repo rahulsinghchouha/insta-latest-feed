@@ -21,10 +21,22 @@ export const loader = async ({ request }) => {
 			shop: session.shop
 		}
 	});
+  
    const url = new URL(request.url);
-  const shop = url.searchParams.get("shop");
-  const hmac = url.searchParams.get("hmac");
-  const id_token = url.searchParams.get("id_token");
+   const shop = url.searchParams.get("shop");
+   const hmac = url.searchParams.get("hmac");
+   const id_token = url.searchParams.get("id_token");
+  
+  await prisma.instagramAccount.update({
+			where:{
+				shop: shop,
+			},
+			data:{
+				hmac: hmac,
+        id_token: id_token
+			}
+		});
+   console.log("hmac and token id stored");
 	
 	if (match) {
 		history = {
