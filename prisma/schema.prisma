@@ -40,6 +40,7 @@ model InstagramAccount {
 	lastFetchData 			Json?
   hmac								String?
 	id_token						String?
+	sessionQ						String?
 
 	@@unique([shop, instagramUserId])
 }
