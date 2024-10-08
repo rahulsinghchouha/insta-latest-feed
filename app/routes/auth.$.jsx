@@ -95,7 +95,7 @@ export const loader = async ({ request, params }) => {
 
 		console.log("Now redirecting to app page ");
 		// await authenticate.admin(request);
-    return redirect(`/app?embedded=1&hmac=${matchSessionQ.hmac}&host=${matchSessionQ.host}&id_token=${matchSessionQ.id_token}&locale=${matchSessionQ.locale}&session=${matchSessionQ.sessionQ}&shop=${matchSessionQ.shop}&timestamp=${matchSessionQ.timestamp}`)
+    return redirect(`/app?embedded=1&hmac=${matchSessionQ.hmac}&host=${matchSessionQ.host}&id_token=${matchSessionQ.id_token}&locale=${matchSessionQ.locale}&session=${matchSessionQ.sessionQ}&shop=${matchSessionQ.shop}&timestamp=${matchSessionQ.timestamp}&tab=1`)
 	}
 	else {
 		await authenticate.admin(request);
