@@ -30,7 +30,11 @@ export const loader = async ({ request, params }) => {
 			queryParams.set("shop", matchSessionQ.shop);
       console.log("query params have been set", queryParams);
 		}
-		
+
+    if(queryParams.get("error") && queryParams.get("error") === "access_denied" ){
+      return redirect(`/app?embedded=1&hmac=${matchSessionQ.hmac}&host=${matchSessionQ.host}&id_token=${matchSessionQ.id_token}&locale=${matchSessionQ.locale}&session=${matchSessionQ.sessionQ}&shop=${matchSessionQ.shop}&timestamp=${matchSessionQ.timestamp}&userdenied=true`)
+    }
+    
 		const response = await axios.post("https://api.instagram.com/oauth/access_token", new URLSearchParams({
 			client_id: process.env.INSTA_CLIENT_ID,
 			client_secret: process.env.INSTA_CLIENT_SECRET,
