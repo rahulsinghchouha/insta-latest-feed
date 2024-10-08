@@ -12,8 +12,7 @@ export const loader = async ({ request, params }) => {
 		const queryParams = url.searchParams;
 		const code = queryParams.get("code");
 		const state = queryParams.get("state");
-    const existingSession = await sessionStorage.loadSession(state);
-    console.log("Existing Session Found", existingSession);
+    
 		const matchSessionQ = await prisma.session.findFirst({
 			where: {
 				sessionQ: state
@@ -65,7 +64,7 @@ export const loader = async ({ request, params }) => {
 		await prisma.instagramAccount.upsert({
 			where: {
 				shop_instagramUserId: {
-					shop: existingSession.shop,
+					shop: matchSessionQ.shop,
 					instagramUserId,
 				},
 			},
@@ -74,7 +73,7 @@ export const loader = async ({ request, params }) => {
 				accessToken: longLivedAccessToken,
 			},
 			create: {
-				shop: existingSession.shop,
+				shop: matchSessionQ.shop,
 				instagramUserId,
 				username,
 				accessToken: longLivedAccessToken,
