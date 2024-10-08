@@ -26,8 +26,9 @@ export const loader = async ({ request }) => {
    const shop = url.searchParams.get("shop");
    const hmac = url.searchParams.get("hmac");
    const id_token = url.searchParams.get("id_token");
-  
-  await prisma.instagramAccount.update({
+	
+	if (match) {
+    await prisma.instagramAccount.update({
 			where:{
 				shop: shop,
 			},
@@ -37,8 +38,7 @@ export const loader = async ({ request }) => {
 			}
 		});
    console.log("hmac and token id stored");
-	
-	if (match) {
+    
 		history = {
 			shop: match.shop,
 			instagramUserId: match.instagramUserId,
