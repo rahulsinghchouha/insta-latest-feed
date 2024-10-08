@@ -44,6 +44,7 @@ export const loader = async ({ request }) => {
 				timestamp
 			},
 			create:{
+        shop: shop,
 				hmac: hmac,
         id_token: id_token,
 				sessionQ: sessionQ,
