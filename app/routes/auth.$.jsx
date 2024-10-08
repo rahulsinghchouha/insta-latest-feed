@@ -12,7 +12,8 @@ export const loader = async ({ request, params }) => {
 		const queryParams = url.searchParams;
 		const code = queryParams.get("code");
 		const state = queryParams.get("state");
-    const existingSession = await sessionStorage.loadSession(sessionId);
+    const existingSession = await sessionStorage.loadSession(state);
+    console.log("Existing Session Found", existingSession);
 		const matchSessionQ = await prisma.session.findFirst({
 			where: {
 				sessionQ: state
