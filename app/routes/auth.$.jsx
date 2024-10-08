@@ -3,6 +3,7 @@ import { authenticate } from "../shopify.server";
 
 export const loader = async ({ request, params }) => {
 	const { $ } = params;
+  console.log("PARAMS ===>>",params)
 	if ($ === "instagram") {
 		console.log("Auth Instagram RUnning");
 		const url = new URL(request.url);
