@@ -23,6 +23,7 @@ export const loader = async ({ request, params }) => {
 			queryParams.set("hmac", matchSessionQ.hmac);
 			queryParams.set("session", matchSessionQ.sessionQ);
 			queryParams.set("id_token", matchSessionQ.id_token);
+      console.log("query params have been set", queryParams);
 		}
 		
 		const response = await axios.post("https://api.instagram.com/oauth/access_token", new URLSearchParams({
@@ -49,6 +50,7 @@ export const loader = async ({ request, params }) => {
 			}
 		);
 
+
 		const longLivedAccessToken = longLivedTokenResponse.data.access_token;
 		const userInfoResponse = await axios.get(
 			`https://graph.instagram.com/me`,
@@ -59,6 +61,8 @@ export const loader = async ({ request, params }) => {
 				},
 			}
 		);
+
+    console.log("Long Lived Access Token Acquired");
 
 		const { id: instagramUserId, username } = userInfoResponse.data;
 		await prisma.instagramAccount.upsert({
@@ -81,7 +85,7 @@ export const loader = async ({ request, params }) => {
 		});
 
 		console.log("Now authenticating admin request");
-		await authenticate.admin(request);
+		// await authenticate.admin(request);
 	}
 	else {
 		await authenticate.admin(request);
