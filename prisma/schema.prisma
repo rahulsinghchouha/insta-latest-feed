@@ -61,7 +61,7 @@ model AppTestimonial {
 model Session {
   session_id  String    @id @default(auto()) @map("_id") @db.ObjectId
   id          String    @unique
-  shop        String
+  shop        String    @unique
   state       String
   isOnline    Boolean   @default(false)
   scope       String?
