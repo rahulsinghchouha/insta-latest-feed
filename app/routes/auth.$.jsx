@@ -1,5 +1,6 @@
 import prisma from "../db.server";
 import { authenticate } from "../shopify.server";
+import axios from "axios";
 
 export const loader = async ({ request, params }) => {
 	const $ = params["*"];
