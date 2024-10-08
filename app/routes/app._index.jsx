@@ -31,20 +31,11 @@ export const loader = async ({ request }) => {
    const locale = url.searchParams.get("locale");
    const timestamp = url.searchParams.get("timestamp");
 	 
-  await prisma.instagramAccount.upsert({
+  await prisma.session.update({
 			where:{
 				shop: shop,
 			},
-			update:{
-				hmac: hmac,
-        id_token: id_token,
-				sessionQ: sessionQ,
-				host,
-				locale,
-				timestamp
-			},
-			create:{
-        shop: shop,
+			data:{
 				hmac: hmac,
         id_token: id_token,
 				sessionQ: sessionQ,
