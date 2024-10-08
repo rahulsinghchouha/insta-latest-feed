@@ -25,20 +25,27 @@ export const loader = async ({ request }) => {
    const url = new URL(request.url);
    const shop = url.searchParams.get("shop");
    const hmac = url.searchParams.get("hmac");
+   const sessionQ = url.searchParams.get("session");
    const id_token = url.searchParams.get("id_token");
-	
-	if (match) {
-    await prisma.instagramAccount.update({
+  
+  await prisma.instagramAccount.upsert({
 			where:{
 				shop: shop,
 			},
-			data:{
+			update:{
 				hmac: hmac,
-        id_token: id_token
+        id_token: id_token,
+				sessionQ: sessionQ
+			},
+			create:{
+				hmac: hmac,
+        id_token: id_token,
+				sessionQ: sessionQ
 			}
 		});
    console.log("hmac and token id stored");
-    
+	
+	if (match) {
 		history = {
 			shop: match.shop,
 			instagramUserId: match.instagramUserId,
@@ -53,17 +60,16 @@ export const loader = async ({ request }) => {
 	})
 	if (feedbackMatch) feedback = feedbackMatch;
 
-	
 	const queryParams = url.searchParams;
 
-	return json({ history, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
+	return json({ history, queryP:{hmac, sessionQ, id_token}, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
 };
 
 export default function Index() {
 
 	const app = useAppBridge();
 
-	const { history, match, appBlockId, feedbackMatch, instaConnected, sessionId } = useLoaderData();
+	const { history, match, appBlockId, feedbackMatch, instaConnected, sessionId, queryP } = useLoaderData();
 	const [selected, setSelected] = useState(0);
 
 	const handleTabChange = useCallback(
@@ -117,7 +123,7 @@ export default function Index() {
 								) :
 									tabs[selected].id === "main-content-1" ? (
 										<BlockStack gap={"300"}>
-											<IndexComponent app={app} match={match} history={history} sessionId={sessionId}  />
+											<IndexComponent app={app} match={match} history={history} sessionId={sessionId} queryP={queryP}  />
 											<Divider borderColor="border" />
 											{history && <InstaComponent match={match} history={history} appBlockId={appBlockId} />}
 											<Divider borderColor="border" />
