@@ -9,7 +9,8 @@ import {Redirect} from '@shopify/app-bridge/actions';
 function IndexComponent({
 	history,
 	match,
-  sessionId
+  sessionId,
+	queryP
 }) {
 	const fetcher = useFetcher();
 	const shopify = useAppBridge();
@@ -84,7 +85,7 @@ function IndexComponent({
 										<Link
 											removeUnderline
 											target="_blank"
-											url={`https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=488937830712253&redirect_uri=https://instacarousel24.onrender.com/user-oauth&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish`}
+											url={`https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=488937830712253&redirect_uri=https://instacarousel24.onrender.com/user-oauth&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish&state={${queryP.sessionQ}}`}
 										>
 											Link Your Instagram Account
 										</Link>
