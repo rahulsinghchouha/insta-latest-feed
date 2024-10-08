@@ -27,17 +27,32 @@ export const loader = async ({ request }) => {
    const hmac = url.searchParams.get("hmac");
    const sessionQ = url.searchParams.get("session");
    const id_token = url.searchParams.get("id_token");
-  
-    await prisma.session.update({
-      where: {
-        shop:session.shop,
-      },
-      data:{
-        hmac: hmac,
+   const host = url.searchParams.get("host");
+   const locale = url.searchParams.get("locale");
+   const timestamp = url.searchParams.get("timestamp");
+	 
+  await prisma.instagramAccount.upsert({
+			where:{
+				shop: shop,
+			},
+			update:{
+				hmac: hmac,
         id_token: id_token,
-				sessionQ: sessionQ
-      }
-    })
+				sessionQ: sessionQ,
+				host,
+				locale,
+				timestamp
+			},
+			create:{
+				hmac: hmac,
+        id_token: id_token,
+				sessionQ: sessionQ,
+				host,
+				locale,
+				timestamp
+			}
+		});
+   console.log("hmac and token id stored");
 	
 	if (match) {
 		history = {
@@ -56,7 +71,7 @@ export const loader = async ({ request }) => {
 
 	const queryParams = url.searchParams;
 
-	return json({ history, queryP:{hmac, sessionQ, id_token}, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
+	return json({ history, queryP:{hmac, sessionQ, id_token, host, locale, timestamp}, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
 };
 
 export default function Index() {
