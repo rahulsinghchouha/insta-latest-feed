@@ -3,7 +3,7 @@ import { authenticate } from "../shopify.server";
 
 export const loader = async ({ request, params }) => {
 	const $ = params["*"];
-  console.log("PARAMS ===>>",params)
+  console.log("PARAMS ===>>",$)
 	if ($ === "instagram/callback") {
 		console.log("Auth Instagram RUnning");
 		const url = new URL(request.url);
