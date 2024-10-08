@@ -27,7 +27,7 @@ export const loader = async ({ request, params }) => {
 			client_id: process.env.INSTA_CLIENT_ID,
 			client_secret: process.env.INSTA_CLIENT_SECRET,
 			grant_type: 'authorization_code',
-			redirect_uri: 'https://admin.shopify.com/store/citsapptesting/apps/cits-instafeed-1/user-oauth',
+			redirect_uri: 'https://instacarousel24.onrender.com/auth/instagram/callback',
 			code: code,
 		}).toString(), {
 			headers: {
