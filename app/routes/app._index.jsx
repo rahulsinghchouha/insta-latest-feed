@@ -28,7 +28,10 @@ export const loader = async ({ request }) => {
    const sessionQ = url.searchParams.get("session");
    const id_token = url.searchParams.get("id_token");
   
-    await prisma.instagramAccount.create({
+    await prisma.session.update({
+      where: {
+        shop:session.shop,
+      },
       data:{
         shop: shop,
         hmac: hmac,
@@ -38,23 +41,6 @@ export const loader = async ({ request }) => {
     })
 	
 	if (match) {
-    await prisma.instagramAccount.upsert({
-			where:{
-				shop: shop,
-			},
-			update:{
-				hmac: hmac,
-        id_token: id_token,
-				sessionQ: sessionQ
-			},
-			create:{
-				hmac: hmac,
-        id_token: id_token,
-				sessionQ: sessionQ
-			}
-		});
-   console.log("hmac and token id stored");
-    
 		history = {
 			shop: match.shop,
 			instagramUserId: match.instagramUserId,
