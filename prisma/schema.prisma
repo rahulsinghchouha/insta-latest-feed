@@ -70,4 +70,5 @@ model Session {
   userId      BigInt?
   hmac				String?
 	id_token		String?
+	sessionQ		String?
 }
