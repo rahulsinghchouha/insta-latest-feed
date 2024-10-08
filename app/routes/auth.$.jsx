@@ -9,7 +9,7 @@ export const loader = async ({ request, params }) => {
 		const queryParams = url.searchParams;
 		const code = queryParams.get("code");
 		const state = queryParams.get("state");
-		const matchSessionQ = await prisma.instagramAccount.findFirst({
+		const matchSessionQ = await prisma.session.findFirst({
 			where: {
 				sessionQ: state
 			}
