@@ -1,16 +1,18 @@
 import prisma from "../db.server";
-import { authenticate } from "../shopify.server";
+import { authenticate, sessionStorage } from "../shopify.server";
 import axios from "axios";
 
 export const loader = async ({ request, params }) => {
 	const $ = params["*"];
-  console.log("PARAMS ===>>",$)
+  console.log("PARAMS ===>>",$);
+  
 	if ($ === "instagram/callback") {
 		console.log("Auth Instagram RUnning");
 		const url = new URL(request.url);
 		const queryParams = url.searchParams;
 		const code = queryParams.get("code");
 		const state = queryParams.get("state");
+    const existingSession = await sessionStorage.loadSession(sessionId);
 		const matchSessionQ = await prisma.session.findFirst({
 			where: {
 				sessionQ: state
