@@ -33,7 +33,6 @@ export const loader = async ({ request }) => {
         shop:session.shop,
       },
       data:{
-        shop: shop,
         hmac: hmac,
         id_token: id_token,
 				sessionQ: sessionQ
