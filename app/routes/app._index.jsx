@@ -53,7 +53,7 @@ export const loader = async ({ request }) => {
 	})
 	if (feedbackMatch) feedback = feedbackMatch;
 
-	const url = new URL(request.url);
+	
 	const queryParams = url.searchParams;
 
 	return json({ history, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
