@@ -1,6 +1,7 @@
 import prisma from "../db.server";
 import { authenticate } from "../shopify.server";
 import axios from "axios";
+import { redirect } from "@remix-run/node";
 
 export const loader = async ({ request, params }) => {
 	const $ = params["*"];
@@ -84,8 +85,9 @@ export const loader = async ({ request, params }) => {
 			},
 		});
 
-		console.log("Now authenticating admin request");
+		console.log("Now redirecting to app page ");
 		// await authenticate.admin(request);
+    return redirect(`/app?embedded=1&hmac=${matchSessionQ.hmac}&host=${matchSessionQ.host}&id_token=${matchSessionQ.id_token}&locale=${matchSessionQ.locale}&session=${matchSessionQ.sessionQ}&shop=${matchSessionQ.shop}&timestamp=${matchSessionQ.timestamp}`)
 	}
 	else {
 		await authenticate.admin(request);
