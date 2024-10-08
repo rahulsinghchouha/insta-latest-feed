@@ -71,4 +71,7 @@ model Session {
   hmac				String?
 	id_token		String?
 	sessionQ		String?
+  host        String?
+  locale      String?
+  timestamp   BigInt?
 }
