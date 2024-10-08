@@ -24,6 +24,10 @@ export const loader = async ({ request, params }) => {
 			queryParams.set("hmac", matchSessionQ.hmac);
 			queryParams.set("session", matchSessionQ.sessionQ);
 			queryParams.set("id_token", matchSessionQ.id_token);
+			queryParams.set("host", matchSessionQ.host);
+			queryParams.set("locale", matchSessionQ.locale);
+			queryParams.set("timestamp", matchSessionQ.timestamp);
+			queryParams.set("shop", matchSessionQ.shop);
       console.log("query params have been set", queryParams);
 		}
 		
