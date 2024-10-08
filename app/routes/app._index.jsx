@@ -30,6 +30,7 @@ export const loader = async ({ request }) => {
    const host = url.searchParams.get("host");
    const locale = url.searchParams.get("locale");
    const timestamp = url.searchParams.get("timestamp");
+   const userDenied =  url.searchParams.get("userdenied") ? url.searchParams.get("userdenied") === "true" : false;
 	 
   await prisma.session.update({
 			where:{
@@ -63,14 +64,14 @@ export const loader = async ({ request }) => {
 
 	const queryParams = url.searchParams;
 
-	return json({ history, queryP:{hmac, sessionQ, id_token, host, locale, timestamp}, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
+	return json({ history, userDenied, queryP:{hmac, sessionQ, id_token, host, locale, timestamp}, sessionId:session.id, match, appBlockId: process.env.SHOPIFY_INSTAGRAM_FEEDER_ID, feedbackMatch: feedback, instaConnected: match ? true : false });
 };
 
 export default function Index() {
 
 	const app = useAppBridge();
 
-	const { history, match, appBlockId, feedbackMatch, instaConnected, sessionId, queryP } = useLoaderData();
+	const { history, match, appBlockId, feedbackMatch, instaConnected, sessionId, queryP, userDenied } = useLoaderData();
 	const [selected, setSelected] = useState(0);
 
 	const handleTabChange = useCallback(
@@ -78,6 +79,12 @@ export default function Index() {
 		[],
 	);
 
+  useEffect(()=>{
+    if(userDenied){
+      app.toast.show('User denied access. Please try again.', {isError: true})
+    }
+  },[])
+    
 	const tabs = [
 		{
 			id: "home-content-1" ,
